@@ -1,8 +1,13 @@
 const router = require('express').Router();
-// const Users = require('../users/users-model');
+const Users = require('../users/users-model');
 
-router.get('/', (req, res, next) => {
-    console.log('router wired');
-})
+router.post('/register', (req, res, next) => {
+    const { user_username, user_password, user_email } = req.body;
+    Users.addUser({ user_username, user_password, user_email })
+      .then(newUser => {
+        res.status(201).json(newUser);
+      })
+      .catch(next);
+});
 
 module.exports = router;
