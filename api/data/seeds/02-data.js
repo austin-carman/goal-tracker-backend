@@ -1,11 +1,11 @@
 const users = [
     {
       user_username: 'abc12',
-      user_password: '1234'
+      user_password: '$2a$08$bVCTwdvkQkLv5KVBhiWM5uHcy3XmskNUz5HnYAqmzUai5WoThT7CC'
     },
     {
         user_username: 'samantha',
-        user_password: '1234'
+        user_password: '$2a$08$bVCTwdvkQkLv5KVBhiWM5uHcy3XmskNUz5HnYAqmzUai5WoThT7CC'
     }
   ]
 

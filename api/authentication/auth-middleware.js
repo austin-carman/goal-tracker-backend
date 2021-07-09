@@ -26,7 +26,6 @@ const validateBody = (req, res, next) => {
             message: 'Please fill out all required fields'
         })
     } else {
-        console.log('validateBody');
         next()
     }
 }
@@ -46,19 +45,15 @@ const checkUsernameFree = async (req, res, next) => {
 
 const checkUsernameExists = async (req, res, next) => {
     const { user_username } = req.body;
-    console.log('username', user_username);
     try {
         const user = await Users.findUserBy({user_username})
-        console.log('user', user);
         if (!user) {
-            console.log('test user');
             next({
                 status: 401,
                 message: `Invalid username or password`
             })
         } else {
             req.user = user
-            console.log('username exists');
             next()
         }
     }
