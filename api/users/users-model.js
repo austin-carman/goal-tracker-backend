@@ -1,10 +1,19 @@
 const db = require('../data/db-config');
 
-function findUsers() {
-    const users = db('users');
-    return users;
+function findUserBy() {
+   
+}
+
+function findUserById(user_id) {
+
+}
+
+function addUser({username, password}) {
+
 }
 
 module.exports = {
-    findUsers
+    findUserBy,
+    findUserById,
+    addUser
 }

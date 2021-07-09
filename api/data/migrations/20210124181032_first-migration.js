@@ -16,7 +16,9 @@ exports.up = async (knex) => {
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
       goals.string('goal_title', 200).notNullable()
-      goals.decimal('percentage_completed')
+      goals.date('achieve_by').notNullable()
+      goals.decimal('percentage_completed') // default value?
+      goals.boolean('completed') // do I need a default value?
     })
     .createTable('steps', (steps) => {
       steps.increments('step_id')
@@ -27,9 +29,9 @@ exports.up = async (knex) => {
         .inTable('goals')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
-      steps.string('step_number', 200).notNullable()
+      steps.integer('step_number', 200).notNullable()
       steps.string('step_text', 500).notNullable()
-      steps.boolean('completed')
+      steps.boolean('step_completed') // default value?
     })
     .createTable('likes', (likes) => {
       likes.increments('like_id')
@@ -49,7 +51,7 @@ exports.up = async (knex) => {
         .onUpdate('CASCADE')
     })
     .createTable('comments', (comments) => {
-      comments.increments('comment')
+      comments.increments('comment_id')
       comments.integer('user_id')
         .notNullable()
         .unsigned()
