@@ -1,10 +1,22 @@
-const express = require('express')
-const helmet = require('helmet')
-const cors = require('cors')
+const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
 
-const server = express()
-server.use(express.json())
-server.use(helmet())
-server.use(cors())
+const authRouter = require('./authentication/auth-router');
 
-module.exports = server
+const server = express();
+server.use(express.json());
+server.use(helmet());
+server.use(cors());
+
+server.use('/api/auth', authRouter);
+
+server.use((err, req, res, next) => {
+    res.json({
+        status: 500,
+        message: err.message,
+        error: err.stack
+    });
+});
+
+module.exports = server;
