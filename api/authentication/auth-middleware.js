@@ -2,6 +2,12 @@ const Users = require('../users/users-model');
 const { JWT_SECRET } = require('../../secret/index');
 const jwt = require('jsonwebtoken');
 
+/*
+check for more edge cases? username length,
+password length and characters?
+*/
+
+
 const restricted = (req, res, next) => {
     const token = req.headers.authorization;
     if (token) {
