@@ -48,7 +48,7 @@ exports.up = async (knex) => {
         .onUpdate('CASCADE')
     })
     .createTable('comments', (comments) => {
-      comments.increments('comment')
+      comments.increments('comment_id')
       comments.integer('user_id')
         .notNullable()
         .unsigned()

@@ -14,12 +14,12 @@ function findUserById(user_id) {
     return users;
 }
 
-async function addUser({ user_username, user_password, user_email }) {
+async function addUser({ user_username, user_password }) {
     const newUser = await db.transaction(async trx => {
         const [result] = await trx('users')
         .insert(
-            { user_username, user_password, user_email }, 
-            ['user_id', 'user_username', 'user_password', 'user_email']
+            { user_username, user_password }, 
+            ['user_id', 'user_username', 'user_password']
         )
         return result
     })
