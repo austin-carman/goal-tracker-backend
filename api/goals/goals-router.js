@@ -22,7 +22,7 @@ router.get('/details/:goal_id', (req, res, next) => {
 
 // Add new goal
 router.post('/new-goal/:user_id', (req, res, next) => {
-    Goals.addGoal(req.body)
+    Goals.addGoal(req.params.user_id, req.body)
         .then(newGoal => {
             res.status(201).json(newGoal)
         })
