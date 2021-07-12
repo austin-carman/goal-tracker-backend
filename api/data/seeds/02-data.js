@@ -44,7 +44,7 @@ const steps = [
         goal_id: 3,
         step_number: 1,
         step_text: 'Save 20% of each paycheck',
-    },
+    }
 ]
 
 const likes = [
