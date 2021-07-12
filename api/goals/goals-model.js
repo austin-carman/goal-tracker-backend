@@ -29,6 +29,7 @@ async function goalDetails(goal_id) {
             step_number: step.step_number,
             step_text: step.step_text,
             completed: step.completed,
+            step_id: step.step_id
         }
     });
 
@@ -44,9 +45,9 @@ async function goalDetails(goal_id) {
 
 
 // Add new goal
-async function addGoal(user_id, addGoal) {
-    const { title, stepsList } = addGoal; // ??? how to insert steps into steps table?
-    const newGoal = await db
+async function addGoal(user_id, newGoal) {
+    const { title } = newGoal; // ??? how to insert steps into steps table?
+    const addedGoal = await db('goals')
         .insert({
             user_id,
             goal_title: title
@@ -58,29 +59,85 @@ async function addGoal(user_id, addGoal) {
             'percentage_completed'
         ]
         )
-        .into('goals')
-        // .insert(
-        //     stepsList.map(step => {
-        //         return {
-        //             step_number: step.step_number,
-        //             step_text: step.step_text
-        //         }
-        //     }), 
-        //     [
-        //         'step_number',
-        //         'step_text',
-        //         'completed'
-        //     ]
-        // )
-        // .into('steps')
 
-    return newGoal;
+    return addedGoal;
 }
 
+// add new step to a goal
+async function addSteps(goal_id, newSteps) {
+    const { step_number, step_text } = newSteps
+    const [step] = await db('steps')
+        .insert({
+            goal_id, 
+            step_number,
+            step_text
+        },
+        [
+            'step_id',
+            'goal_id',
+            'step_number',
+            'step_text',
+            'completed'
+        ]
+        )
+    
+    return step;
+}
 
+// edit goal
+async function editGoal(goal_id, editedGoal) {
+    const { title } = editedGoal;
+    const [goal] = await db('goals')
+        .where('goal_id', goal_id)
+        .update({
+            goal_title: title
+        }, 
+        [
+            'goal_id',
+            'user_id',
+            'goal_title',
+            'percentage_completed'
+        ]);
+
+    return goal;
+}
+
+// edit step
+async function editStep(step_id, editedStep) {
+    const { step_number, step_text, completed } = editedStep;
+    const [step] = await db('steps')
+        .where('step_id', step_id)
+        .update({
+            step_number,
+            step_text,
+            completed
+        },
+        [
+            'step_id',
+            'goal_id',
+            'step_number',
+            'step_text',
+            'completed'
+        ])
+
+    return step;
+}
+
+// delete goal
+async function deleteGoal(goal_id) {
+    const goal = await db('goals')
+        .where('goal_id', goal_id)
+        .del([])
+
+    return goal;
+}
 
 module.exports = {
     goalsByUser,
     goalDetails,
     addGoal,
+    addSteps,
+    editGoal,
+    editStep,
+    deleteGoal,
 }
