@@ -8,7 +8,7 @@ async function goalsByUser(user_id) {
     return goals;
 }
 
-// view specified goal's details
+// view a goal's details
 async function goalDetails(goal_id) {
     const goal = await db('goals as g')
     .leftJoin('steps as s', 'g.goal_id', '=', 's.goal_id')
@@ -43,15 +43,15 @@ async function goalDetails(goal_id) {
 }
 
 
-// Add new goal for specified user
-// async function addNewGoal(user_id, newGoal) {
-//     const newGoal = await db('goals')
-// }
+// Add new goal
+async function addGoal(user_id, newGoal) {
+    
+}
 
 
 
 module.exports = {
     goalsByUser,
     goalDetails,
-    // addNewGoal,
+    addGoal,
 }

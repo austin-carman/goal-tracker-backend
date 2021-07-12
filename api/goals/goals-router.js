@@ -11,7 +11,7 @@ router.get('/:user_id', (req, res, next) => {
         .catch(next);
 })
 
-// View specified goal's details
+// View a goal's details
 router.get('/details/:goal_id', (req, res, next) => {
     Goals.goalDetails(req.params.goal_id)
         .then(goal => {
@@ -20,14 +20,14 @@ router.get('/details/:goal_id', (req, res, next) => {
         .catch(next);
 })
 
-// Add new goal for specified user
-// router.post('/new-goal/:user_id', (req, res, next) => {
-//     Goals.addNewGoal(req.body)
-//         .then(newGoal => {
-//             console.log('router');
-//         })
-//         .catch(next)
-// })
+// Add new goal
+router.post('/new-goal/:user_id', (req, res, next) => {
+    Goals.addGoal(req.body)
+        .then(newGoal => {
+            res.status(201).json(newGoal)
+        })
+        .catch(next)
+})
 
 
 
