@@ -47,7 +47,7 @@ async function goalDetails(goal_id) {
 // Add new goal
 async function addGoal(user_id, newGoal) {
     const { title } = newGoal; // ??? how to insert steps into steps table?
-    const addedGoal = await db('goals')
+    const [addedGoal] = await db('goals')
         .insert({
             user_id,
             goal_title: title
