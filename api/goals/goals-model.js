@@ -4,11 +4,11 @@ const db = require('../data/db-config');
 async function goalsByUser(user_id) {
     const goals = await db('goals as g')
     .where('user_id', user_id);
-
     return goals;
 }
 
 // view a goal's details
+// ??? comment out and use in middleware? ???
 async function goalDetails(goal_id) {
     const goal = await db('goals as g')
     .leftJoin('steps as s', 'g.goal_id', '=', 's.goal_id')
@@ -24,23 +24,25 @@ async function goalDetails(goal_id) {
     )
     .where('g.goal_id', goal_id);
 
-    const steps = goal.map(step=> {
-        return {
-            step_number: step.step_number,
-            step_text: step.step_text,
-            completed: step.completed,
-            step_id: step.step_id
-        }
-    });
+    // const steps = goal.map(step=> {
+    //     return {
+    //         step_number: step.step_number,
+    //         step_text: step.step_text,
+    //         completed: step.completed,
+    //         step_id: step.step_id
+    //     }
+    // });
 
-    const goalDetails = {
-            goal_id: goal[0].goal_id,
-            goal_title: goal[0].goal_title,
-            percentage_completed: goal[0].percentage_completed,
-            steps: steps
-    };
+    // const goalDetails = {
+    //     goal_id: goal[0].goal_id,
+    //     goal_title: goal[0].goal_title,
+    //     percentage_completed: goal[0].percentage_completed,
+    //     steps: steps
+    // };
 
-    return goalDetails;
+    // return goalDetails;
+
+    return goal;
 }
 
 
