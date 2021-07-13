@@ -17,4 +17,12 @@ router.post('/:user_id/follow/:following_id', (req, res, next) => {
         .catch(next)
 })
 
+router.delete('/:user_id/remove/:following_id', (req, res, next) => {
+    Follow.deleteFollowing(req.params.user_id, req.params.following_id)
+    .then(removed => {
+        res.status(200).json(removed)
+    })
+    .catch(next)
+})
+
 module.exports = router;
