@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const authRouter = require('./authentication/auth-router');
 const goalsRouter = require('./goals/goals-router');
+const relationshipRouter = require('./relationships/relationships.router');
 
 const server = express();
 server.use(express.json());
@@ -12,6 +13,7 @@ server.use(cors());
 
 server.use('/api/auth', authRouter);
 server.use('/api/goals', goalsRouter);
+server.use('/api/following', relationshipRouter);
 
 server.use((err, req, res, next) => {
     res.json({
