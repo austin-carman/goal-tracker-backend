@@ -59,8 +59,7 @@ async function addGoal(user_id, newGoal) {
             'user_id',
             'goal_title',
             'percentage_completed'
-        ]
-        )
+        ])
 
     return addedGoal;
 }

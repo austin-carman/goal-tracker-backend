@@ -68,7 +68,7 @@ exports.up = async (knex) => {
     })
     .createTable('relationships', (relationships) => {
       relationships.increments('relationship_id')
-      relationships.integer('follower_id')
+      relationships.integer('user_id')
         .notNullable()
         .unsigned()
         .references('user_id')
