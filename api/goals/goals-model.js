@@ -1,14 +1,11 @@
 const db = require('../data/db-config');
 
-// All goals for specified user
 async function goalsByUser(user_id) {
-    const goals = await db('goals as g')
+    const goals = await db('goals')
     .where('user_id', user_id);
     return goals;
 }
 
-// view a goal's details
-// ??? comment out and use in middleware? ???
 async function goalDetails(goal_id) {
     const goal = await db('goals as g')
     .leftJoin('steps as s', 'g.goal_id', '=', 's.goal_id')
@@ -24,31 +21,11 @@ async function goalDetails(goal_id) {
     )
     .where('g.goal_id', goal_id);
 
-    // const steps = goal.map(step=> {
-    //     return {
-    //         step_number: step.step_number,
-    //         step_text: step.step_text,
-    //         completed: step.completed,
-    //         step_id: step.step_id
-    //     }
-    // });
-
-    // const goalDetails = {
-    //     goal_id: goal[0].goal_id,
-    //     goal_title: goal[0].goal_title,
-    //     percentage_completed: goal[0].percentage_completed,
-    //     steps: steps
-    // };
-
-    // return goalDetails;
-
     return goal;
 }
 
-
-// Add new goal
 async function addGoal(user_id, newGoal) {
-    const { title } = newGoal; // ??? how to insert steps into steps table?
+    const { title } = newGoal;
     const [addedGoal] = await db('goals')
         .insert({
             user_id,
@@ -64,7 +41,6 @@ async function addGoal(user_id, newGoal) {
     return addedGoal;
 }
 
-// add new step to a goal
 async function addSteps(goal_id, newSteps) {
     const { step_number, step_text } = newSteps
     const [step] = await db('steps')
@@ -85,7 +61,6 @@ async function addSteps(goal_id, newSteps) {
     return step;
 }
 
-// edit goal
 async function editGoal(goal_id, editedGoal) {
     const { title } = editedGoal;
     const [goal] = await db('goals')
@@ -103,7 +78,6 @@ async function editGoal(goal_id, editedGoal) {
     return goal;
 }
 
-// edit step
 async function editStep(step_id, editedStep) {
     const { step_number, step_text, completed } = editedStep;
     const [step] = await db('steps')
@@ -124,7 +98,6 @@ async function editStep(step_id, editedStep) {
     return step;
 }
 
-// delete goal
 async function deleteGoal(goal_id) {
     const goal = await db('goals')
         .where('goal_id', goal_id)
