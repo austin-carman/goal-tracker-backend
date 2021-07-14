@@ -9,6 +9,25 @@ async function findComments(goal_id) {
     return comments;
 }
 
+async function addComment(goal_id, user_id, comment_text) {
+    const [newComment] = await db('comments')
+        .insert({
+            user_id,
+            goal_id,
+            comment_text
+        }, 
+        [
+            'comment_id',
+            'user_id',
+            'goal_id',
+            'comment_text',
+            'created_at'
+        ])
+    
+    return newComment;
+}
+
 module.exports = {
     findComments,
+    addComment,
 }
