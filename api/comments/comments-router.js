@@ -1,8 +1,6 @@
 const router = require('express').Router();
 const Comments = require('./comments-model');
 const { validateCommentId, validateBody } = require('./comments.middleware');
-// validate goal_id .... reuse existing goals middleware
-// validate user_id .... reuse existing users middleware
 
 router.get('/:goal_id', (req, res, next) => {
     Comments.findComments(req.params.goal_id)

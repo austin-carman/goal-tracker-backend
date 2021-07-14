@@ -45,6 +45,7 @@ const validateGoalId = async (req, res, next) => {
                 percentage_completed: goal[0].percentage_completed,
                 steps: steps
             };
+            
             req.goal = goalDetails;
             next()
         }

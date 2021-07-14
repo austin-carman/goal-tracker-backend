@@ -33,7 +33,6 @@ const validateBody = (req, res, next) => {
     }
 }
 
-
 module.exports = {
     validateCommentId,
     validateBody,
