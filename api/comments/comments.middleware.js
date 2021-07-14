@@ -1,9 +1,4 @@
 const db = require('../data/db-config');
-const Comments = require('./comments-model');
-
-// validate goal_id .... reuse existing goals middleware
-
-// validate user_id .... reuse existing users middleware
 
 const validateCommentId = async (req, res, next) => {
     const { comment_id } = req.params;
@@ -25,7 +20,21 @@ const validateCommentId = async (req, res, next) => {
     }
 }
 
+const validateBody = (req, res, next) => {
+    const { comment_text } = req.body;
+    console.log('comment', comment_text);
+    if (!comment_text) {
+        res.json({
+            status: 404,
+            message: 'Must provide comment_text in body'
+        })
+    } else {
+        next()
+    }
+}
+
 
 module.exports = {
     validateCommentId,
+    validateBody,
 }

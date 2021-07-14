@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const Comments = require('./comments-model');
-const { validateCommentId } = require('./comments.middleware');
+const { validateCommentId, validateBody } = require('./comments.middleware');
+// validate goal_id .... reuse existing goals middleware
+// validate user_id .... reuse existing users middleware
 
 router.get('/:goal_id', (req, res, next) => {
     Comments.findComments(req.params.goal_id)
@@ -10,7 +12,7 @@ router.get('/:goal_id', (req, res, next) => {
         .catch(next);
 })
 
-router.post('/:goal_id/add/:user_id', (req, res, next) => {
+router.post('/:goal_id/add/:user_id', validateBody, (req, res, next) => {
     const { goal_id, user_id } = req.params;
     const { comment_text } = req.body;
     Comments.addComment(goal_id, user_id, comment_text)
@@ -20,7 +22,7 @@ router.post('/:goal_id/add/:user_id', (req, res, next) => {
         .catch(next);
 })
 
-router.put('/:user_id/edit/:comment_id', validateCommentId, (req, res, next) => {
+router.put('/:user_id/edit/:comment_id', validateBody, validateCommentId, (req, res, next) => {
     const { user_id, comment_id } = req.params;
     const { comment_text } = req.body;
     Comments.editComment(user_id, comment_id, comment_text)
