@@ -7,7 +7,7 @@ const validateUserGoals = async (req, res, next) => {
         if (!goals || goals.length === 0) {
             res.json({
                 status: 404,
-                message: `Could not find existing goals for user with id ${user_id}`
+                message: `Could not find existing goals for user with id, ${user_id}`
             })
         } else {
             req.goals = goals;
@@ -27,7 +27,7 @@ const validateGoalId = async (req, res, next) => {
         if (!goal || goal.length === 0) {
             res.json({
                 status: 404,
-                message: `Could not find goal with id ${goal_id}`
+                message: `Could not find goal with id, ${goal_id}`
             })
         } else {
             const steps = goal.map(step=> {
@@ -62,7 +62,7 @@ const validateStepId = async (req, res, next) => {
         if (!step) {
             res.json({
                 status: 404,
-                message: `Could not find step with id ${step_id}`
+                message: `Could not find step with id, ${step_id}`
             })
         } else {
             req.step = step;
@@ -79,7 +79,7 @@ const validateGoalBody = (req, res, next) => {
     if (!title) {
         res.json({
             status: 404,
-            message: 'Goal Title is required'
+            message: 'title is required'
         })
     } else {
         next()
@@ -91,12 +91,12 @@ const validateNewStepBody = (req, res, next) => {
     if (!step_number || !step_text) {
         res.json({
             status: 404,
-            message: 'Step number and text are required'
+            message: 'step_number and step_text are required'
         })
     } else if (isNaN(step_number)) {
         res.json({
             status: 404,
-            message: 'Step number must be a number'
+            message: 'step_number must be a number'
         })
     } else {
         next()
@@ -104,14 +104,36 @@ const validateNewStepBody = (req, res, next) => {
 }
 
 const validateEditStep = (req, res, next) => {
-    const { step_number, step_text, completed } = req.body;
-    if (!step_number && !step_text && !completed) {
+    const { step_text, completed } = req.body;
+    if (!step_text && !completed) {
         res.json({
             status: 404,
-            message: 'Step number, step description or completion needed to update step'
+            message: 
+            `Please provide step_text or completed status to update step`
         })
     } else {
         next()
+    }
+}
+
+const validateStepNumber = async (req, res, next) => {
+    const { step_number } = req.body;
+    const { goal_id } = req.params;
+    try {
+        const existingStep = await Goals.findStep(goal_id, step_number)
+        console.log('validate', existingStep);
+        if (!existingStep) {
+            next()
+        } else {
+            res.json({
+                status: 404,
+                message: 
+                    `step_number, ${step_number}, already exists for this goal`
+            })
+        }
+    }
+    catch (err) {
+        next(err)
     }
 }
 
@@ -122,4 +144,5 @@ module.exports = {
     validateGoalBody,
     validateNewStepBody,
     validateEditStep,
+    validateStepNumber,
 }
