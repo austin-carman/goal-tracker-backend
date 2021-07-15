@@ -1,8 +1,10 @@
 const db = require('../data/db-config');
 
 async function findLikes(goal_id) {
-    const goalLikes = await db('likes')
+    const goalLikes = await db('likes as l')
+        .join('users as u', 'l.user_id', 'u.user_id')
         .where('goal_id', goal_id)
+        .select('l.*', 'u.user_username as username')
 
     return goalLikes;
 }
