@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Follow = require('./relationships.model');
+const { alreadyFollowing } = require('./relationships-middleware');
 
 router.get('/:user_id', (req, res, next) => {
     Follow.findFollowing(req.params.user_id)
@@ -9,7 +10,7 @@ router.get('/:user_id', (req, res, next) => {
         .catch(next)
 })
 
-router.post('/:user_id/follow/:following_id', (req, res, next) => {
+router.post('/:user_id/follow/:following_id', alreadyFollowing, (req, res, next) => {
     Follow.addFollowing(req.params.user_id, req.params.following_id)
         .then(following => {
             res.status(200).json(following)

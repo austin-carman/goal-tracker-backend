@@ -9,6 +9,18 @@ async function findFollowing(user_id) {
     return following;
 }
 
+async function isFollowing(user_id, following_id) {
+    const [following] = await db('relationships as r')
+        .join('users as u', 'r.following_id', 'u.user_id')
+        .select('r.*', 'u.user_username as following_username')
+        .where({
+            'r.user_id': user_id,
+            'r.following_id': following_id
+        });
+    console.log('model', following);
+    return following;
+}
+
 async function addFollowing(user_id, following_id) {
     const [follow] = await db('relationships as r')
         .insert({
@@ -37,6 +49,7 @@ async function deleteFollowing(user_id, following_id) {
 
 module.exports = {
     findFollowing,
+    isFollowing,
     addFollowing,
     deleteFollowing,
 }
