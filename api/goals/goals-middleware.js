@@ -121,7 +121,6 @@ const validateStepNumber = async (req, res, next) => {
     const { goal_id } = req.params;
     try {
         const existingStep = await Goals.findStep(goal_id, step_number)
-        console.log('validate', existingStep);
         if (!existingStep) {
             next()
         } else {
