@@ -1,7 +1,6 @@
 const db = require('../data/db-config');
 const Likes = require('./likes-model');
 
-
 const validateGoalId = async (req, res, next) => {
     const { goal_id } = req.params;
     try {

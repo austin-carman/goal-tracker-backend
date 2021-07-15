@@ -2,19 +2,28 @@ const router = require('express').Router();
 const Users = require('../users/users-model');
 const bcrypt = require('bcryptjs');
 const tokenBuilder = require('./token-builder');
-const { validateBody, checkUsernameFree, checkUsernameExists, restricted } = require('./auth-middleware');
+const { 
+    validateBody, 
+    checkUsernameFree, 
+    checkUsernameExists,
+} = require('./auth-middleware');
 
-router.post('/register', validateBody, checkUsernameFree, (req, res, next) => {
-    const { user_username, user_password } = req.body;
-    const hash = bcrypt.hashSync(user_password, 8);
-    Users.addUser({ user_username, user_password: hash })
-      .then(newUser => {
-        res.status(201).json(newUser);
-      })
-      .catch(next);
-});
+router.post( // ???? better to format like this? or like like login endpoint???
+    '/register', 
+    validateBody, 
+    checkUsernameFree, 
+    (req, res, next) => {
+        const { user_username, user_password } = req.body;
+        const hash = bcrypt.hashSync(user_password, 8);
+        Users.addUser({ user_username, user_password: hash })
+        .then(newUser => {
+            res.status(201).json(newUser);
+        })
+        .catch(next);
+    }
+);
 
-router.post('/login', validateBody, checkUsernameExists, (req, res, next) => {
+router.post('/login', validateBody, checkUsernameExists, (req, res, next) => { // is this line too long??
     if (bcrypt.compareSync(req.body.user_password, req.user.user_password)) {
         const token = tokenBuilder(req.user)
         res.status(200).json({

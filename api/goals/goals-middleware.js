@@ -1,18 +1,13 @@
-const db = require('../data/db-config');
 const Goals = require('./goals-model');
 
-
-// ??? should I use db here or Goals.goalsByUser ???
-const validateUserId = async (req, res, next) => {
+const validateUserGoals = async (req, res, next) => {
     const { user_id } = req.params;
     try {
-        const goals = await db('goals')
-        .where('user_id', user_id);
-
+        const goals = await Goals.goalsByUser(user_id)
         if (!goals || goals.length === 0) {
             res.json({
                 status: 404,
-                message: `Could not find user of id ${user_id}`
+                message: `Could not find existing goals for user with id ${user_id}`
             })
         } else {
             req.goals = goals;
@@ -24,8 +19,6 @@ const validateUserId = async (req, res, next) => {
     }
 }
 
-
-// ??? is this how you should do the middleware????
 const validateGoalId = async (req, res, next) => {
     const { goal_id } = req.params;
     try {
@@ -52,6 +45,7 @@ const validateGoalId = async (req, res, next) => {
                 percentage_completed: goal[0].percentage_completed,
                 steps: steps
             };
+            
             req.goal = goalDetails;
             next()
         }
@@ -111,7 +105,6 @@ const validateNewStepBody = (req, res, next) => {
 
 const validateEditStep = (req, res, next) => {
     const { step_number, step_text, completed } = req.body;
-    
     if (!step_number && !step_text && !completed) {
         res.json({
             status: 404,
@@ -123,7 +116,7 @@ const validateEditStep = (req, res, next) => {
 }
 
 module.exports = {
-    validateUserId,
+    validateUserGoals,
     validateGoalId,
     validateStepId,
     validateGoalBody,
