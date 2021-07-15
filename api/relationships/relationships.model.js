@@ -10,7 +10,7 @@ async function findFollowing(user_id) {
 }
 
 async function addFollowing(user_id, following_id) {
-    const follow = await db('relationships as r')
+    const [follow] = await db('relationships as r')
         .insert({
             user_id,
             following_id

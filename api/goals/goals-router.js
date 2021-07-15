@@ -11,17 +11,17 @@ const {
 } = require('./goals-middleware');
 
 // All goals for specified user
-router.get('/:user_id', restricted, validateUserGoals, (req, res, next) => {
+router.get('/:user_id', validateUserGoals, (req, res, next) => {
     res.status(200).json(req.goals)
 })
 
 // View all details for goal
-router.get('/details/:goal_id', restricted, validateGoalId, (req, res, next) => {
+router.get('/details/:goal_id', validateGoalId, (req, res, next) => {
     res.status(200).json(req.goal);
 })
 
 // Add new goal
-router.post('/new/:user_id', restricted, validateGoalBody, (req, res, next) => {
+router.post('/new/:user_id', validateGoalBody, (req, res, next) => {
     Goals.addGoal(req.params.user_id, req.body)
         .then(newGoal => {
             res.status(201).json(newGoal)
@@ -30,7 +30,7 @@ router.post('/new/:user_id', restricted, validateGoalBody, (req, res, next) => {
 })
 
 // add new step to a goal
-router.post('/add-step/:goal_id', restricted, validateGoalId, validateNewStepBody, (req, res, next) => {
+router.post('/add-step/:goal_id', validateGoalId, validateNewStepBody, (req, res, next) => {
     Goals.addSteps(req.params.goal_id, req.body)
         .then(steps => {
             res.status(201).json(steps);
@@ -39,7 +39,7 @@ router.post('/add-step/:goal_id', restricted, validateGoalId, validateNewStepBod
 })
 
 // edit goal
-router.put('/edit/goal/:goal_id', restricted, validateGoalId, validateGoalBody, (req, res, next) => {
+router.put('/edit/goal/:goal_id', validateGoalId, validateGoalBody, (req, res, next) => {
     Goals.editGoal(req.params.goal_id, req.body)
         .then(goal => {
             res.status(201).json(goal);
@@ -48,7 +48,7 @@ router.put('/edit/goal/:goal_id', restricted, validateGoalId, validateGoalBody, 
 })
 
 // edit step
-router.put('/edit/step/:step_id', restricted, validateEditStep, validateStepId, (req, res, next) => {
+router.put('/edit/step/:step_id', validateEditStep, validateStepId, (req, res, next) => {
     Goals.editStep(req.params.step_id, req.body)
         .then(step => {
             res.status(201).json(step);
@@ -57,7 +57,7 @@ router.put('/edit/step/:step_id', restricted, validateEditStep, validateStepId, 
 })
 
 // delete goal
-router.delete('/delete/:goal_id', restricted, validateGoalId, (req, res, next) => {
+router.delete('/delete/:goal_id', validateGoalId, (req, res, next) => {
     Goals.deleteGoal(req.params.goal_id)
         .then(goal => {
             res.status(200).json(goal);

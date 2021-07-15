@@ -5,7 +5,6 @@ const validateCommentId = async (req, res, next) => {
     try {
         const [comment] = await db('comments')
             .where('comment_id', comment_id)
-        console.log(comment);
         if (!comment) {
             res.json({
                 status: 404,
@@ -22,7 +21,6 @@ const validateCommentId = async (req, res, next) => {
 
 const validateBody = (req, res, next) => {
     const { comment_text } = req.body;
-    console.log('comment', comment_text);
     if (!comment_text) {
         res.json({
             status: 404,

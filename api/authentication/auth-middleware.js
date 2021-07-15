@@ -25,11 +25,17 @@ const validateBody = (req, res, next) => {
             status: 400,
             message: 'Username and password are required'
         })
-    } else if (user_username.length < 3 || user_password < 3) {
+    } else if (user_username.length < 3) {
         next({
             status: 400,
             message: 
-                'Username and password must be 3 or more characters'
+                'Username must be 3 or more characters'
+        })
+    } else if (user_password.length < 3) {
+        next({
+            status: 400,
+            message: 
+                'Password must be 3 or more characters'
         })
     } else {
         next()
