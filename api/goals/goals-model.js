@@ -41,6 +41,16 @@ async function addGoal(user_id, newGoal) {
     return addedGoal;
 }
 
+async function findStep(goal_id, step_number) {
+    const [existingStep] = await db('steps')
+        .where({
+            goal_id,
+            step_number
+        })
+    console.log('model', existingStep);
+    return existingStep;
+}
+
 async function addSteps(goal_id, newSteps) {
     const { step_number, step_text } = newSteps
     const [step] = await db('steps')
@@ -79,11 +89,10 @@ async function editGoal(goal_id, editedGoal) {
 }
 
 async function editStep(step_id, editedStep) {
-    const { step_number, step_text, completed } = editedStep;
+    const { step_text, completed } = editedStep;
     const [step] = await db('steps')
         .where('step_id', step_id)
         .update({
-            step_number,
             step_text,
             completed
         },
@@ -109,6 +118,7 @@ async function deleteGoal(goal_id) {
 module.exports = {
     goalsByUser,
     goalDetails,
+    findStep,
     addGoal,
     addSteps,
     editGoal,
