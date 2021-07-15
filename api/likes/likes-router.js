@@ -10,6 +10,7 @@ router.get('/:goal_id', validateGoalId, (req, res, next) => {
         .catch(next)
 })
 
+// don't need alreadyLiked middleware? Do on frontend
 router.post('/:user_id/:goal_id', alreadyLiked, (req, res, next) => {
     const { user_id, goal_id } = req.params;
     Likes.likeGoal(user_id, goal_id)
