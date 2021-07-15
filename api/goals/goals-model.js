@@ -47,7 +47,6 @@ async function findStep(goal_id, step_number) {
             goal_id,
             step_number
         })
-    console.log('model', existingStep);
     return existingStep;
 }
 

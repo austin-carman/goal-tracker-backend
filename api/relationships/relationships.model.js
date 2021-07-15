@@ -17,7 +17,6 @@ async function isFollowing(user_id, following_id) {
             'r.user_id': user_id,
             'r.following_id': following_id
         });
-    console.log('model', following);
     return following;
 }
 
