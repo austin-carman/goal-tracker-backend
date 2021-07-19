@@ -19,7 +19,11 @@ server.use('/api/following', relationshipRouter);
 server.use('/api/likes', likesRouter);
 server.use('/api/comments', commentsRouter);
 
-server.use((err, req, res, next) => {
+server.get('/', (req, res) => {
+    res.status(200).json('api up')
+})
+
+server.use((err, req, res) => {
     res.json({
         status: 500,
         message: err.message,
