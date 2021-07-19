@@ -23,7 +23,7 @@ server.get('/', (req, res) => {
     res.status(200).json('api up')
 })
 
-server.use((err, req, res, next) => {
+server.use((err, req, res) => {
     res.json({
         status: 500,
         message: err.message,
