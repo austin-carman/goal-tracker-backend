@@ -68,7 +68,7 @@ const checkUsernameExists = async (req, res, next) => {
         const user = await Users.findUserBy({user_username})
         if (!user) {
             console.log('check11');
-            next({
+            res.json({
                 status: 401,
                 message: `Invalid username or password`
             })
