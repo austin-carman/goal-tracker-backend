@@ -7,12 +7,14 @@ const goalsRouter = require('./goals/goals-router');
 const relationshipRouter = require('./relationships/relationships.router');
 const likesRouter = require('./likes/likes-router');
 const commentsRouter = require('./comments/comments-router');
+const usersRouter = require('./users/users-router');
 
 const server = express();
 server.use(express.json());
 server.use(helmet());
 server.use(cors());
 
+server.use('/api/users', usersRouter);
 server.use('/api/auth', authRouter);
 server.use('/api/goals', goalsRouter);
 server.use('/api/following', relationshipRouter);

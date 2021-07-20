@@ -1,14 +1,20 @@
 const db = require('../data/db-config');
 
-function findUserBy(filter) {
-    const users = db('users')
+async function findAllUsers() {
+    const users = await db('users')
+    
+    return users;
+}
+
+async function findUserBy(filter) {
+    const users = await db('users')
         .where(filter)
         .first();
     return users;
 }
 
-function findUserById(user_id) {
-    const users = db('users')
+async function findUserById(user_id) {
+    const users = await db('users')
         .where('user_id', user_id)
         .first();
     return users;
@@ -27,6 +33,7 @@ async function addUser({ user_username, user_password }) {
 }
 
 module.exports = {
+    findAllUsers,
     findUserBy,
     findUserById,
     addUser,
