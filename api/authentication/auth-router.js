@@ -8,11 +8,7 @@ const {
     checkUsernameExists,
 } = require('./auth-middleware');
 
-router.post( // ???? better to format like this? or like like login endpoint???
-    '/register', 
-    validateBody, 
-    checkUsernameFree, 
-    (req, res, next) => {
+router.post('/register', validateBody, checkUsernameFree, (req, res, next) => {
         const { user_username, user_password } = req.body;
         const hash = bcrypt.hashSync(user_password, 8);
         Users.addUser({ user_username, user_password: hash })
