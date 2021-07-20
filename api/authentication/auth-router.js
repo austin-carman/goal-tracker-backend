@@ -22,8 +22,11 @@ router.post('/register', validateBody, checkUsernameFree, (req, res, next) => {
 router.post('/login', validateBody, checkUsernameExists, (req, res, next) => { // is this line too long??
     if (bcrypt.compareSync(req.body.user_password, req.user.user_password)) {
         const token = tokenBuilder(req.user)
+        console.log(req.user);
         res.status(200).json({
         message: `Welcome back ${req.user.user_username}!`,
+        username: req.user.user_username,
+        userId: req.user.user_id,
         token
     })
     } else {
