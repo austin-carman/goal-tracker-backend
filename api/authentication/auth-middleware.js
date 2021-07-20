@@ -19,30 +19,25 @@ const restricted = (req, res, next) => {
 }
 
 const validateBody = (req, res, next) => {
-    console.log('check4');
     const { user_username, user_password } = req.body;
     if (!user_username || !user_password) {
-        console.log('check5');
         next({
             status: 400,
             message: 'Username and password are required'
         })
     } else if (user_username.length < 3) {
-        console.log('check6');
         next({
             status: 400,
             message: 
                 'Username must be 3 or more characters'
         })
     } else if (user_password.length < 3) {
-        console.log('check7');
         next({
             status: 400,
             message: 
                 'Password must be 3 or more characters'
         })
     } else {
-        console.log('check8');
         next()
     }
 }
@@ -61,13 +56,10 @@ const checkUsernameFree = async (req, res, next) => {
 }
 
 const checkUsernameExists = async (req, res, next) => {
-    console.log('check9');
     const { user_username } = req.body;
     try {
-        console.log('check10');
         const user = await Users.findUserBy({user_username})
         if (!user) {
-            console.log('check11');
             res.json({
                 status: 401,
                 message: `Invalid username or password`
