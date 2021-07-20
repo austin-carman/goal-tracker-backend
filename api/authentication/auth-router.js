@@ -20,13 +20,16 @@ router.post('/register', validateBody, checkUsernameFree, (req, res, next) => {
 );
 
 router.post('/login', validateBody, checkUsernameExists, (req, res, next) => { // is this line too long??
+    console.log('check1');
     if (bcrypt.compareSync(req.body.user_password, req.user.user_password)) {
+        console.log('check2');
         const token = tokenBuilder(req.user)
         res.status(200).json({
         message: `Welcome back ${req.user.user_username}!`,
         token
     })
     } else {
+        console.log('check3');
         next({ 
             status: 401, 
             message: 'Invalid username or password' 
